@@ -15,8 +15,10 @@ with DAG(
         from selenium.webdriver.chrome.options import Options
 
         options = Options()
-        options.add_experimental_option("excludeSwitches", ["enable-automation"])
-        driver = webdriver.Chrome(options=options) 
+        options.add_argument('--headless')
+        options.add_argument('--window-size=1920,1080')
+        options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.3')
+        driver = webdriver.Chrome(options=options)
 
     py_t1 = PythonOperator(
         task_id='py_t1',
