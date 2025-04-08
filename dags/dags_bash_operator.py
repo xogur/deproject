@@ -122,7 +122,9 @@ with DAG(
             cursor = json.loads(res.text)['link']['nextCursor']
             if cursor is None:
                 break
-
+        
+        df = pd.DataFrame(product_list, columns = ['상품이름','세일률','가격','상품링크'])
+        df.to_csv('musinsa_products.csv', index=False, encoding='utf-8-sig')
 
 
     py_t1 = PythonOperator(
