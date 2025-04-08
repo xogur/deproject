@@ -22,6 +22,7 @@ with DAG(
         import json
         import pandas as pd
         import sys
+        import os
 
         options = Options()
         options.add_argument('--headless')
@@ -125,8 +126,11 @@ with DAG(
                 break
         driver.quit()
         sys.exit()
+        path = "/opt/airflow/files"
+        if not os.path.exists(path):
+            os.system(f'mkdir -p {path}')
         df = pd.DataFrame(product_list, columns = ['상품이름','세일률','가격','상품링크'])
-        df.to_csv('musinsa_products.csv', index=False, encoding='utf-8-sig')
+        df.to_csv(path + '/musinsa_products.csv', index=False, encoding='utf-8-sig')
 
 
     py_t1 = PythonOperator(
