@@ -142,7 +142,12 @@ with DAG(
                             print(f"세일 감지: 기존={old_price}, 새가격={price}")
                             
                             # ✅ 카카오톡 알림 (알림톡 or REST API)
-                            message = f"[세일 알림]\n{product_name}\n기존: {old_price}원 → 세일: {price}원!\n📦 {product_url}"
+                            message = {
+                                        "상품명": product_name,
+                                        "기존가격": old_price,
+                                        "현재가격": price,
+                                        "링크": product_url
+                                    }
                             
                             # 카카오톡 전송 로직 (예시: Notify API)
                             send_kakao_msg(talk_title=f'세일 알람',content=message)
