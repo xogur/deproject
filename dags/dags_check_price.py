@@ -6,7 +6,7 @@ import random
 from airflow.models import Variable
 
 with DAG(
-    dag_id="dags_python_operator",
+    dag_id="dags_check_price",
     schedule="30 6 * * *",
     start_date=pendulum.datetime(2023, 3, 1, tz="Asia/Seoul"),
     catchup=False
@@ -162,9 +162,9 @@ with DAG(
 
         
 
-    py_t1 = PythonOperator(
-        task_id='py_t1',
+    chech_price = PythonOperator(
+        task_id='chech_price',
         python_callable=crawling_sale
     )
 
-    py_t1
+    chech_price
