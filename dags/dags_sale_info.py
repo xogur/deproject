@@ -11,7 +11,7 @@ with DAG(
     start_date=pendulum.datetime(2023, 3, 1, tz="Asia/Seoul"),
     catchup=False
 ) as dag:
-    def select_fruit():
+    def crawling_sale():
         from selenium import webdriver
         from selenium.webdriver.common.keys import Keys
         from selenium.webdriver.common.by import By
@@ -134,9 +134,11 @@ with DAG(
 
         sys.exit()
 
+        
+
     py_t1 = PythonOperator(
         task_id='py_t1',
-        python_callable=select_fruit
+        python_callable=crawling_sale
     )
 
     py_t1
