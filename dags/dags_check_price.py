@@ -126,7 +126,7 @@ with DAG(
 
                         pg_hook = PostgresHook(postgres_conn_id='deproject_sale_info')
                         sql = f"""
-                        SELECT price, product_url FROM sale_info
+                        SELECT price, product_link FROM sale_info
                         WHERE product_name = %s
                         """
 
