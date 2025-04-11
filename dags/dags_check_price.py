@@ -138,7 +138,7 @@ with DAG(
                         
                         old_price, product_url = result
 
-                        if price < old_price:
+                        if price == old_price:
                             print(f"세일 감지: 기존={old_price}, 새가격={price}")
                             
                             # ✅ 카카오톡 알림 (알림톡 or REST API)
