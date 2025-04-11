@@ -4,6 +4,7 @@ import datetime
 from airflow.operators.python import PythonOperator
 import random
 from airflow.models import Variable
+from airflow.providers.postgres.hooks.postgres import PostgresHook
 
 with DAG(
     dag_id="dags_check_price",
