@@ -23,7 +23,7 @@ with DAG(
         import pandas as pd
         import sys
         import os
-        from .configs.kakao_api import send_kakao_msg
+        from configs.kakao_api import send_kakao_msg
         
 
         options = Options()
