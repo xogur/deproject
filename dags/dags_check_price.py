@@ -138,7 +138,7 @@ with DAG(
                         
                         old_price, product_url = result
 
-                        if price < old_price:
+                        if price == old_price:
                             print(f"세일 감지: 기존={old_price}, 새가격={price}")
                             
                             # ✅ 카카오톡 알림 (알림톡 or REST API)
@@ -150,7 +150,8 @@ with DAG(
                                     }
                             
                             # 카카오톡 전송 로직 (예시: Notify API)
-                            send_kakao_msg(talk_title=f'세일 알람',content=message)
+                            # send_kakao_msg(talk_title=f'세일 알람',content=message)
+                            send_kakao_msg('세일 알람', product_name, old_price, price, product_url)
 
                             print("카카오 응답:", res.status_code, res.text)
                         else:
