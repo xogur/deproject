@@ -33,7 +33,7 @@ def _refresh_token_to_variable():
 
 
 
-def send_kakao_msg(talk_title: str, product_name: str, old_price: int, price: int, product_url: str):
+def send_kakao_msg(talk_title: str, content: dict):
     '''
     content:{'tltle1':'content1', 'title2':'content2'...}
     '''
@@ -46,41 +46,25 @@ def send_kakao_msg(talk_title: str, product_name: str, old_price: int, price: in
         content_lst = []
         button_lst = []
 
-        content_lst = [{
-        'title': f'{product_name}',
-        'description': f'기존가격: {old_price}원\n현재가격: {price}원',
-        'image_url': '',  # 이미지 URL 필요 시 채우기
-        'image_width': 40,
-        'image_height': 40,
-        'link': {
-            'web_url': product_url,
-            'mobile_web_url': product_url
-        }
-    }]
-
-            # 버튼 리스트 (필요 시 버튼 추가)
-        button_lst = [{
-            'title': '상품 보러가기',
-            'link': {
-                'web_url': product_url,
-                'mobile_web_url': product_url
-            }
-        }]
-
-        payload = {
-            'template_object': {
-                'object_type': 'list',
-                'header_title': talk_title,
-                'header_link': {
-                    'web_url': product_url,
-                    'mobile_web_url': product_url,
-                    'android_execution_params': 'main',
-                    'ios_execution_params': 'main'
-                },
-                'contents': content_lst,
-                'buttons': button_lst
-            }
-        }
+        for title, msg in content.items():
+            content_lst.append({
+                'title': f'{title}',
+                'description': f'{msg}',
+                'image_url': '',
+                'image_width': 40,
+                'image_height': 40,
+                'link': {
+                    'web_url': '',
+                    'mobile_web_url': ''
+                }
+            })
+            button_lst.append({
+                'title': '',
+                'link': {
+                    'web_url': '',
+                    'mobile_web_url': ''
+                }
+            })
 
         list_data = {
             'object_type': 'list',
