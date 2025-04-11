@@ -17,6 +17,6 @@ with DAG(
         task_id='insrt_postgres',
         python_callable=insrt_postgres,
         op_kwargs={'postgres_conn_id': 'deproject_sale_info',
-                   'tbl_nm':'deproject',
+                   'tbl_nm':'sale_info',
                    'file_nm':'/opt/airflow/files/musinsa_products.csv'}
     )
