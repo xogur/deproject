@@ -130,7 +130,7 @@ with DAG(
         if not os.path.exists(path):
             os.system(f'mkdir -p {path}')
         df = pd.DataFrame(product_list, columns = ['상품이름','세일률','가격','상품링크'])
-        df.to_csv(path + '/musinsa_products.csv', index=False, encoding='utf-8-sig')
+        df.to_csv(path + '/musinsa_products.csv', index=False, encoding='utf-8')
 
         sys.exit()
 
