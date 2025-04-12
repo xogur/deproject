@@ -70,6 +70,8 @@ with DAG(
             
             print(dominant_color)
             rgb_list.append(dominant_color)
+
+            rgb_list = [color.tolist() for color in rgb_list]
         
         return rgb_list
 
