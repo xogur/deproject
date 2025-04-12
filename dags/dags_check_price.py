@@ -150,8 +150,8 @@ with DAG(
                                     }
                             
                             # 카카오톡 전송 로직 (예시: Notify API)
-                            send_kakao_msg(talk_title=f'세일 알람',content=message)
-                            
+                            # send_kakao_msg(talk_title=f'세일 알람',content=message)
+                            send_kakao_msg(product_name,old_price, price, product_url)
 
                             print("카카오 응답:", res.status_code, res.text)
                         else:
