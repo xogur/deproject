@@ -71,7 +71,7 @@ with DAG(
             rgb_list.append((dominant_color, image))
 
         
-        rgb_list = [(r, g, b, image) for (rgb, image) in rgb_list for r, g, b in [rgb]]
+        rgb_list = [(int(r), int(g), int(b), image) for (rgb, image) in rgb_list for r, g, b in [rgb]]
         
         return rgb_list
 
