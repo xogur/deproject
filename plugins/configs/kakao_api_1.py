@@ -32,58 +32,51 @@ def _refresh_token_to_variable():
     print('variable 업데이트 완료(key: kakao_tokens)')
 
 
-
-def send_kakao_msg(talk_title: str, content: dict):
+# https://image.msscdn.net/thumbnails/images/goods_img/20240131/3836412/3836412_17084990134555_big.jpg?w=1200
+def send_kakao_msg(product_name: str, old_price: int, price: int, product_link: str):
     '''
     content:{'tltle1':'content1', 'title2':'content2'...}
     '''
 
     try_cnt = 0
     while True:
-        ### get Access 토큰
-        tokens = eval(Variable.get("kakao_tokens"))
+        # Access Token 가져오기
+        tokens = json.loads(Variable.get("kakao_tokens"))
         access_token = tokens.get('access_token')
-        content_lst = []
-        button_lst = []
 
-        for title, msg in content.items():
-            content_lst.append({
-                'title': f'{title}',
-                'description': f'{msg}',
-                'image_url': '',
-                'image_width': 40,
-                'image_height': 40,
-                'link': {
-                    'web_url': '',
-                    'mobile_web_url': ''
+        # 커머스 메시지 템플릿 구성
+        template_object = {
+            "object_type": "commerce",
+            "content": {
+                "title": product_name,
+                "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20240131/3836412/3836412_17084990134555_big.jpg?w=1200",
+                "image_width": 640,
+                "image_height": 640,
+                "link": {
+                    "web_url": product_link,
+                    "mobile_web_url": product_link
                 }
-            })
-            button_lst.append({
-                'title': '',
-                'link': {
-                    'web_url': '',
-                    'mobile_web_url': ''
-                }
-            })
-
-        list_data = {
-            'object_type': 'list',
-            'header_title': f'{talk_title}',
-            'header_link': {
-                'web_url': '',
-                'mobile_web_url': '',
-                'android_execution_params': 'main',
-                'ios_execution_params': 'main'
             },
-            'contents': content_lst,
-            'buttons': button_lst
+            "commerce": {
+                "regular_price": old_price,
+                "discount_price": price
+            },
+            "buttons": [
+                {
+                    "title": "상품 보러가기",
+                    "link": {
+                        "web_url": product_link,
+                        "mobile_web_url": product_link
+                    }
+                }
+            ]
         }
 
         send_url = "https://kapi.kakao.com/v2/api/talk/memo/default/send"
         headers = {
             "Authorization": f'Bearer {access_token}'
         }
-        data = {'template_object': json.dumps(list_data)}
+        data = {'template_object': json.dumps(template_object)}
         response = requests.post(send_url, headers=headers, data=data)
         print(f'try횟수: {try_cnt}, reponse 상태:{response.status_code}')
         try_cnt += 1
