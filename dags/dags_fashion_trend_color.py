@@ -68,10 +68,10 @@ with DAG(
             dominant_index = counts.most_common(1)[0][0]
             dominant_color = cluster_centers[dominant_index]
             
-            rgb_list.append(dominant_color)
+            rgb_list.append((dominant_color, image))
 
         
-        rgb_list = [rgb.tolist() for rgb in rgb_list]
+        rgb_list = [(rgb.tolist(), image) for rgb, image in rgb_list]
         
         return rgb_list
 
