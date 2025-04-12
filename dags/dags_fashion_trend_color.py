@@ -68,7 +68,6 @@ with DAG(
             dominant_index = counts.most_common(1)[0][0]
             dominant_color = cluster_centers[dominant_index]
             
-            print(dominant_color)
             rgb_list.append(dominant_color)
 
         
@@ -81,14 +80,13 @@ with DAG(
 
        
     def insert_color(postgres_conn_id, tbl_nm, **kwargs):
-        import pandas as pd
+        postgres_hook = PostgresHook(postgres_conn_id)
         ti = kwargs['ti']
         rgb_list = ti.xcom_pull(task_ids='py_t1')
 
         delete_sql = f"DELETE FROM {tbl_nm}"
         postgres_hook.run(delete_sql)
 
-        postgres_hook = PostgresHook(postgres_conn_id)
         postgres_hook.insert_rows(table=tbl_nm, rows=rgb_list)
 
         
