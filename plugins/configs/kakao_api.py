@@ -46,14 +46,14 @@ def send_kakao_msg(product_name: str, old_price: int, price: int, product_link: 
 
         # 커머스 메시지 템플릿 구성
         template_object = {
-            "object_type": "commerce",
+            "object_type": "feed",
             "content": {
                 "title": product_name,
                 "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20240131/3836412/3836412_17084990134555_big.jpg?w=1200",
                 "image_width": 640,
                 "image_height": 640,
                 "link": {
-                    "web_url": "https://www.musinsa.com/products/4477705",
+                    "web_url": product_link,
                     "mobile_web_url": product_link
                 }
             },
@@ -65,7 +65,7 @@ def send_kakao_msg(product_name: str, old_price: int, price: int, product_link: 
                 {
                     "title": "상품 보러가기",
                     "link": {
-                        "web_url": "https://www.musinsa.com/products/4477705",
+                        "web_url": product_link,
                         "mobile_web_url": product_link
                     }
                 }
