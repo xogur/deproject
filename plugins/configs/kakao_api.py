@@ -53,7 +53,7 @@ def send_kakao_msg(product_name: str, old_price: int, price: int, product_link: 
                 "image_width": 640,
                 "image_height": 640,
                 "link": {
-                    "web_url": product_link,
+                    "web_url": "https://www.musinsa.com/products/4477705",
                     "mobile_web_url": product_link
                 }
             },
@@ -65,7 +65,7 @@ def send_kakao_msg(product_name: str, old_price: int, price: int, product_link: 
                 {
                     "title": "상품 보러가기",
                     "link": {
-                        "web_url": product_link,
+                        "web_url": "https://www.musinsa.com/products/4477705",
                         "mobile_web_url": product_link
                     }
                 }
