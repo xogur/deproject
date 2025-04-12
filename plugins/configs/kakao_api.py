@@ -31,7 +31,7 @@ def _refresh_token_to_variable():
     os.system(f'airflow variables set kakao_tokens "{tokens}"')
     print('variable 업데이트 완료(key: kakao_tokens)')
 
-
+# https://www.musinsa.com/products/3836412
 # https://image.msscdn.net/thumbnails/images/goods_img/20240131/3836412/3836412_17084990134555_big.jpg?w=1200
 def send_kakao_msg(product_name: str, old_price: int, price: int, product_link: str):
     '''
@@ -53,7 +53,7 @@ def send_kakao_msg(product_name: str, old_price: int, price: int, product_link: 
                 "image_width": 640,
                 "image_height": 640,
                 "link": {
-                    "web_url": "https://www.musinsa.com/products/4477705",
+                    "web_url": product_link,
                     "mobile_web_url": product_link
                 }
             },
@@ -65,7 +65,7 @@ def send_kakao_msg(product_name: str, old_price: int, price: int, product_link: 
                 {
                     "title": "상품 보러가기",
                     "link": {
-                        "web_url": "https://www.musinsa.com/products/4477705",
+                        "web_url": product_link,
                         "mobile_web_url": product_link
                     }
                 }

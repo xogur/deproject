@@ -18,6 +18,10 @@ with DAG(
         records = df.values.tolist()
 
         # PostgreSQL 연결 및 적재
+        # ✅ 기존 데이터 삭제
+        delete_sql = f"DELETE FROM {tbl_nm}"
+        postgres_hook.run(delete_sql)
+
         postgres_hook = PostgresHook(postgres_conn_id)
         postgres_hook.insert_rows(table=tbl_nm, rows=records)
 
