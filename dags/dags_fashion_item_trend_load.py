@@ -16,6 +16,7 @@ with DAG(
     def insert_trend_item(postgres_conn_id, tbl_nm, **kwargs):
         from configs.trend import trend
         df = trend()
+        df = df.astype(object)
 
         # df를 리스트의 튜플 형태로 변환
         data = [tuple(row) for row in df.to_records(index=False)]
