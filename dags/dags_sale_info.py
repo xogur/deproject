@@ -24,9 +24,13 @@ with DAG(
         return decrypted[:-pad_len].decode()
     
     def fetch_and_decrypt_password(**kwargs):
-        user_email = kwargs['dag_run'].conf.get('user_email')
-        print("🔓 유저 이메일:", user_email)
-        print("✅ fetch_and_decrypt_password 호출됨")
+        dag_run = kwargs.get("dag_run")
+        if not dag_run:
+            print("❌ dag_run이 전달되지 않았습니다.")
+            return
+
+        user_email = dag_run.conf.get("user_email")
+        print("✅ 전달받은 이메일:", user_email)
 
         # Postgres 연결
         postgres_hook = PostgresHook(postgres_conn_id='deproject_sale_info')
@@ -48,7 +52,7 @@ with DAG(
             print("❌ 사용자 정보를 찾을 수 없습니다.")
             return None
     
-    def crawling_sale():
+    def crawling_sale(**kwargs):
         from selenium import webdriver
         from selenium.webdriver.common.keys import Keys
         from selenium.webdriver.common.by import By
@@ -61,6 +65,9 @@ with DAG(
         import sys
         import os
         
+        ti = kwargs['ti']
+        password = ti.xcom_pull(task_ids='fetch_password')  # ✅ 이전 태스크 ID
+        print(f"🔐 가져온 패스워드: {password}")
 
         options = Options()
         options.add_argument('--headless')
@@ -97,7 +104,7 @@ with DAG(
         pw = driver.find_element(By.CSS_SELECTOR, '#password--2')
         pw.click()
         # pw.send_keys(Variable.get("your_pw"))
-        pw.send_keys(decrypted_pw)
+        pw.send_keys(password)
         # pyperclip.copy(your_pw)
         # pw.send_keys(Keys.CONTROL, 'v')
         #driver.execute_script(f"document.querySelector('#password--2').value = '{your_pw}';")
@@ -183,4 +190,10 @@ with DAG(
         python_callable=crawling_sale
     )
 
-    py_t1
+    fetch_task = PythonOperator(
+        task_id='fetch_password',
+        python_callable=fetch_and_decrypt_password,
+        provide_context=True  # ✅ context를 넘김
+    )
+
+    fetch_task >> py_t1
