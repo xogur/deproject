@@ -23,9 +23,9 @@ with DAG(
         pad_len = decrypted[-1]
         return decrypted[:-pad_len].decode()
     
-    def fetch_and_decrypt_password(**context):
-        user_email = context['dag_run'].conf.get('user_email')
-        print("🔔 DAG triggered by user:", user_email)
+    def fetch_and_decrypt_password(**kwargs):
+        user_email = kwargs['dag_run'].conf.get('user_email')
+        print("🔓 유저 이메일:", user_email)
         print("✅ fetch_and_decrypt_password 호출됨")
 
         # Postgres 연결
