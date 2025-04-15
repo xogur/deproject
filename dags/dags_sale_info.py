@@ -9,7 +9,7 @@ from Crypto.Cipher import AES
 import base64
 
 with DAG(
-    dag_id="dags_python_operator",
+    dag_id="dags_sale_info",
     schedule="30 6 * * *",
     start_date=pendulum.datetime(2023, 3, 1, tz="Asia/Seoul"),
     catchup=False
