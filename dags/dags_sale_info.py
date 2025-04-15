@@ -16,10 +16,10 @@ with DAG(
 ) as dag:
     
     def decrypt(cipher_text):
-        key = Variable.get("AES_key")  # 16바이트 키
+        key = Variable.get("AES_key")  # 이 값은 반드시 "MySuperSecretKey"
         cipher = AES.new(key.encode(), AES.MODE_ECB)
         decoded = base64.b64decode(cipher_text)
-        decrypted = cipher.decrypt(decoded)  # 👉 여기서 복호화 수행
+        decrypted = cipher.decrypt(decoded)
         pad_len = decrypted[-1]
         return decrypted[:-pad_len].decode()
     
