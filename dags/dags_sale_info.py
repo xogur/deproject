@@ -4,6 +4,9 @@ import datetime
 from airflow.operators.python import PythonOperator
 import random
 from airflow.models import Variable
+from airflow.providers.postgres.hooks.postgres import PostgresHook
+from Crypto.Cipher import AES
+import base64
 
 with DAG(
     dag_id="dags_python_operator",
@@ -11,6 +14,35 @@ with DAG(
     start_date=pendulum.datetime(2023, 3, 1, tz="Asia/Seoul"),
     catchup=False
 ) as dag:
+    
+    def decrypt(cipher_text):
+        key = Variable.get("AES_key")  # 16바이트 키
+        cipher = AES.new(key.encode(), AES.MODE_ECB)
+        decoded = base64.b64decode(cipher_text)
+        decrypted = cipher.decrypt(decoded)  # 👉 여기서 복호화 수행
+        pad_len = decrypted[-1]
+        return decrypted[:-pad_len].decode()
+    
+    def fetch_and_decrypt_password():
+        # Postgres 연결
+        postgres_hook = PostgresHook(postgres_conn_id='deproject_sale_info')  # airflow에서 설정한 connection ID 사용
+        sql = """
+            SELECT musinsa_password
+            FROM musinsa_account
+            WHERE user_email = 'test@naver.com'
+            LIMIT 1;
+        """
+        result = postgres_hook.get_first(sql)
+
+        if result:
+            encrypted_pw = result[0]
+            decrypted_pw = decrypt(encrypted_pw)
+            print(f"🔓 복호화된 비밀번호: {decrypted_pw}")
+            return decrypted_pw
+        else:
+            print("❌ 사용자 정보를 찾을 수 없습니다.")
+            return None
+    
     def crawling_sale():
         from selenium import webdriver
         from selenium.webdriver.common.keys import Keys
@@ -23,6 +55,7 @@ with DAG(
         import pandas as pd
         import sys
         import os
+        
 
         options = Options()
         options.add_argument('--headless')
@@ -33,6 +66,8 @@ with DAG(
         options.add_argument("--remote-debugging-port=9222")
         options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36')
         driver = webdriver.Chrome(options=options)
+
+        decrypted_pw = fetch_and_decrypt_password()
 
         time.sleep(1)
         driver.get("https://www.musinsa.com/mypage")
@@ -55,7 +90,8 @@ with DAG(
 
         pw = driver.find_element(By.CSS_SELECTOR, '#password--2')
         pw.click()
-        pw.send_keys(Variable.get("your_pw"))
+        # pw.send_keys(Variable.get("your_pw"))
+        pw.send_keys(decrypted_pw)
         # pyperclip.copy(your_pw)
         # pw.send_keys(Keys.CONTROL, 'v')
         #driver.execute_script(f"document.querySelector('#password--2').value = '{your_pw}';")
