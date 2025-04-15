@@ -24,6 +24,7 @@ with DAG(
         return decrypted[:-pad_len].decode()
     
     def fetch_and_decrypt_password():
+        print("✅ fetch_and_decrypt_password 호출됨")
         # Postgres 연결
         postgres_hook = PostgresHook(postgres_conn_id='deproject_sale_info')  # airflow에서 설정한 connection ID 사용
         sql = """
@@ -68,6 +69,7 @@ with DAG(
         driver = webdriver.Chrome(options=options)
 
         decrypted_pw = fetch_and_decrypt_password()
+        print("📌 복호화된 비밀번호 받음:", decrypted_pw)
 
         time.sleep(1)
         driver.get("https://www.musinsa.com/mypage")
