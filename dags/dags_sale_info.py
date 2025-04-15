@@ -16,24 +16,28 @@ with DAG(
 ) as dag:
     
     def decrypt(cipher_text):
-        key = Variable.get("AES_key")  # 이 값은 반드시 "MySuperSecretKey"
+        key = Variable.get('AES_key')  # 이 값은 반드시 "MySuperSecretKey"
         cipher = AES.new(key.encode(), AES.MODE_ECB)
         decoded = base64.b64decode(cipher_text)
         decrypted = cipher.decrypt(decoded)
         pad_len = decrypted[-1]
         return decrypted[:-pad_len].decode()
     
-    def fetch_and_decrypt_password():
+    def fetch_and_decrypt_password(**context):
+        user_email = context['dag_run'].conf.get('user_email')
+        print("🔔 DAG triggered by user:", user_email)
         print("✅ fetch_and_decrypt_password 호출됨")
+
         # Postgres 연결
-        postgres_hook = PostgresHook(postgres_conn_id='deproject_sale_info')  # airflow에서 설정한 connection ID 사용
+        postgres_hook = PostgresHook(postgres_conn_id='deproject_sale_info')
+
         sql = """
             SELECT musinsa_password
             FROM musinsa_account
-            WHERE user_email = 'test1@naver.com'
+            WHERE user_email = %s
             LIMIT 1;
         """
-        result = postgres_hook.get_first(sql)
+        result = postgres_hook.get_first(sql, parameters=(user_email,))
 
         if result:
             encrypted_pw = result[0]
