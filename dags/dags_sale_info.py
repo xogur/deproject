@@ -29,7 +29,7 @@ with DAG(
         sql = """
             SELECT musinsa_password
             FROM musinsa_account
-            WHERE user_email = 'test@naver.com'
+            WHERE user_email = 'test1@naver.com'
             LIMIT 1;
         """
         result = postgres_hook.get_first(sql)
