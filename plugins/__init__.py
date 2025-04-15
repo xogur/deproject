@@ -1,10 +1,4 @@
 # deproject/plugins/__init__.py
-from flask import Flask
-from .cors_middleware import apply_cors_middleware
+from .cors_patch import patch_cors
 
-def patch_flask_app():
-    from airflow.www.app import cached_app
-    app = cached_app()
-    apply_cors_middleware(app)
-
-patch_flask_app()
+patch_cors()  # Airflow 웹서버가 뜰 때 CORS 허용 적용
