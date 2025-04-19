@@ -208,7 +208,7 @@ with DAG(
         trigger_dag_id="dags_user_product_like",
         wait_for_completion=False,
         conf={
-            "musinsa_id": "{{ var.value.your_id }}"  # 또는 context에서 가져오는 방식도 가능
+            "user_email": "{{ dag_run.conf['user_email'] }}"  # 또는 context에서 가져오는 방식도 가능
         }
     )
 

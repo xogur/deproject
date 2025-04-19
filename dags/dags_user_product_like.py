@@ -11,8 +11,8 @@ def insert_user_product_like(**kwargs):
         print("❌ dag_run이 전달되지 않았습니다.")
         return
 
-    musinsa_id = dag_run.conf.get("musinsa_id")
-    print("✅ 전달받은 무신사 ID:", musinsa_id)
+    user_email = dag_run.conf.get("user_email")
+    print("✅ 전달받은 무신사 ID:", user_email)
 
     path = "/opt/airflow/files/musinsa_products.csv"
     df = pd.read_csv(path, skiprows=1, header=None, names=['product_name', 'sale', 'price', 'product_link'])
@@ -34,11 +34,11 @@ def insert_user_product_like(**kwargs):
 
         # user_product_like에 유저와 상품 링크를 추가
         insert_like_sql = """
-            INSERT INTO user_product_like (musinsa_id, product_link)
+            INSERT INTO user_product_like (user_email, product_link)
             VALUES (%s, %s)
-            ON CONFLICT (musinsa_id, product_link) DO NOTHING
+            ON CONFLICT (user_email, product_link) DO NOTHING
         """
-        cursor.execute(insert_like_sql, (musinsa_id, product_link))
+        cursor.execute(insert_like_sql, (user_email, product_link))
 
     conn.commit()
     cursor.close()
