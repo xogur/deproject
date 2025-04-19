@@ -5,6 +5,7 @@ from airflow.operators.python import PythonOperator
 import random
 from airflow.models import Variable
 from airflow.providers.postgres.hooks.postgres import PostgresHook
+from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 from Crypto.Cipher import AES
 import base64
 
@@ -196,4 +197,10 @@ with DAG(
         provide_context=True  # ✅ context를 넘김
     )
 
-    fetch_task >> py_t1
+    trigger_sale_load = TriggerDagRunOperator(
+        task_id="trigger_dags_sale_load",
+        trigger_dag_id="dags_sale_load",  # 실행시킬 DAG ID
+        wait_for_completion=False,        # True로 설정하면 완료까지 기다림
+    )
+
+    fetch_task >> py_t1 >> trigger_sale_load
