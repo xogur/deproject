@@ -51,7 +51,7 @@ with DAG(
     def insert_or_update_sale_info(postgres_conn_id, tbl_nm, file_path, **kwargs):
         import pandas as pd
 
-        df = pd.read_csv(file_path, header=None, names=['product_name', 'sale', 'price', 'product_link'])
+        df = pd.read_csv(file_path, skiprows=1, header=None, names=['product_name', 'sale', 'price', 'product_link'])
         records = df.values.tolist()
 
         postgres_hook = PostgresHook(postgres_conn_id)
