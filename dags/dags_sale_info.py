@@ -200,13 +200,13 @@ with DAG(
     trigger_sale_load = TriggerDagRunOperator(
         task_id="trigger_dags_sale_load",
         trigger_dag_id="dags_sale_load",  # 실행시킬 DAG ID
-        wait_for_completion=True,        # True로 설정하면 완료까지 기다림
+        wait_for_completion=False,        # True로 설정하면 완료까지 기다림
     )
 
     trigger_dags_user_product_like = TriggerDagRunOperator(
         task_id="trigger_dags_user_product_like",
         trigger_dag_id="dags_user_product_like",
-        wait_for_completion=True,
+        wait_for_completion=False,
         conf={
             "musinsa_id": "{{ var.value.your_id }}"  # 또는 context에서 가져오는 방식도 가능
         }
