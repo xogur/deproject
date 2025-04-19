@@ -34,11 +34,11 @@ def insert_user_product_like(**kwargs):
 
         # user_product_like에 유저와 상품 링크를 추가
         insert_like_sql = """
-            INSERT INTO user_product_like (user_email, product_link)
+            INSERT INTO user_product_like (user_email, product_link, product_name)
             VALUES (%s, %s)
             ON CONFLICT (user_email, product_link) DO NOTHING
         """
-        cursor.execute(insert_like_sql, (user_email, product_link))
+        cursor.execute(insert_like_sql, (user_email, product_link, product_name))
 
     conn.commit()
     cursor.close()
