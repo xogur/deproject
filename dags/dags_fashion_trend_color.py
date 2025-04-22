@@ -13,14 +13,14 @@ with DAG(
     catchup=False
 ) as dag:
     def color_trend() :
-        from configs.trend import trend
+        from configs.trend import trend_color
         import requests
         import cv2
         import numpy as np
         from sklearn.cluster import KMeans
         from collections import Counter
 
-        df = trend()
+        df = trend_color()
         rgb_list = []
 
         for image in df['image'] :
