@@ -15,8 +15,15 @@ with DAG(
     
     def insert_trend_item(postgres_conn_id, tbl_nm, **kwargs):
         from configs.trend import trend
+        dag_run = kwargs['dag_run']
+        style  = dag_run.conf.get('style')
+        season = dag_run.conf.get('season')
+        gender = dag_run.conf.get('gender')
+
         df = trend()
         df = df.astype(object)
+
+        print(style, season, gender)
 
         # df를 리스트의 튜플 형태로 변환
         data = [tuple(row) for row in df.to_records(index=False)]
