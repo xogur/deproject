@@ -7,7 +7,7 @@ import json,re
 import base64
 
 
-def trend():
+def trend(style, season, gender):
 
     # 특정 요소(미니멀, 남자)스냅 페이지 들어기기
     cookies = {
@@ -63,11 +63,11 @@ def trend():
             'bodyWeightRange': '',
             'brands': '',
             'contentTypes': '',
-            'genders': 'MEN',
+            'genders': gender,
             'goodsCategories': '',
-            'seasonLabels': '4',
+            'seasonLabels': season,
             'sort': 'POPULAR',
-            'styleLabels': '5',
+            'styleLabels': style,
             'tpoLabels': '',
             'page': i,
             'size': '24',

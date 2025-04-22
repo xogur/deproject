@@ -20,7 +20,7 @@ with DAG(
         season = dag_run.conf.get('season')
         gender = dag_run.conf.get('gender')
 
-        df = trend()
+        df = trend(style, season, gender)
         df = df.astype(object)
 
         print(style, season, gender)
