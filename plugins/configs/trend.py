@@ -202,7 +202,7 @@ def trend_color():
     data = {}
     id_list = []
 
-    for i in range(1, 3) :
+    for i in range(1, 100) :
         params = {
             'formatTypes': 'POST,SHORTS',
             'bodyHeightRange': '',
