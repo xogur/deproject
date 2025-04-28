@@ -5,6 +5,7 @@ import pandas as pd
 import requests
 import json,re
 import base64
+import time
 
 
 def trend(style, season, gender):
@@ -145,6 +146,7 @@ def trend(style, season, gender):
                         "image": image,
                         "count": 1
                     }
+        time.sleep(2)
     df = pd.DataFrame.from_dict(data, orient='index').reset_index()
     df = df.rename(columns={"index": "product_name"})
     return df
@@ -291,6 +293,7 @@ def trend_color():
                         "image": image,
                         "count": 1
                     }
+        time.sleep(2)
     df = pd.DataFrame.from_dict(data, orient='index').reset_index()
     df = df.rename(columns={"index": "product_name"})
     return df
