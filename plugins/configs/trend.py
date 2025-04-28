@@ -56,7 +56,7 @@ def trend(style, season, gender):
     data = {}
     id_list = []
 
-    for i in range(1, 100) :
+    for i in range(1, 40) :
         params = {
             'formatTypes': 'POST,SHORTS',
             'bodyHeightRange': '',
@@ -202,7 +202,7 @@ def trend_color():
     data = {}
     id_list = []
 
-    for i in range(1, 100) :
+    for i in range(1, 40) :
         params = {
             'formatTypes': 'POST,SHORTS',
             'bodyHeightRange': '',
